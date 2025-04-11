@@ -4,10 +4,10 @@ require('dotenv').config({ path: '../.env' });
 
 // Create connection pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: '67.23.238.77',
+  user: 'oticagenial',
+  password: '5u7zA@v50',
+  database: 'oticagenial',
   port: process.env.DB_PORT || 3306,
   waitForConnections: true,
   connectionLimit: 10,
@@ -30,3 +30,4 @@ async function testConnection() {
 testConnection();
 
 module.exports = pool;
+
