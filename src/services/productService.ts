@@ -4,12 +4,13 @@ import { mockProducts } from '../data/mock-products';
 
 const API_URL = 'http://localhost:3001/api';
 
-// Set to false to use the real API
-const useMockData = false;
+// Set to true to use mock data while API connection is fixed
+const useMockData = true;
 
 // Function to fetch data from API with fallback to mock data
 async function fetchFromApi<T>(endpoint: string, mockData: T): Promise<T> {
   if (useMockData) {
+    console.log(`Using mock data for ${endpoint}`);
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(mockData);

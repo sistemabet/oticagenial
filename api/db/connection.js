@@ -8,7 +8,7 @@ const pool = mysql.createPool({
   user: 'oticagenial',
   password: '5u7zA@v50',
   database: 'oticagenial',
-  port: process.env.DB_PORT || 3306,
+  port: 3306,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -30,4 +30,3 @@ async function testConnection() {
 testConnection();
 
 module.exports = pool;
-
