@@ -1,5 +1,9 @@
-import { useLocation } from "react-router-dom";
+
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { Home } from 'lucide-react';
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,14 +16,26 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow container mx-auto px-4 py-12">
+        <div className="flex flex-col items-center justify-center py-16">
+          <h1 className="text-8xl font-bold text-genial-red mb-4">404</h1>
+          <p className="text-2xl text-genial-darkgray mb-8">Página não encontrada</p>
+          <p className="text-genial-gray text-center max-w-md mb-8">
+            A página que você está procurando pode ter sido removida, 
+            seu nome pode ter sido alterado ou está temporariamente indisponível.
+          </p>
+          <Link 
+            to="/" 
+            className="btn-genial flex items-center"
+          >
+            <Home size={18} className="mr-2" />
+            Voltar para a Página Inicial
+          </Link>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
