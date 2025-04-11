@@ -2,63 +2,54 @@
 import { Product } from '../types/product';
 import { mockProducts } from '../data/mock-products';
 
-// In a real implementation, this would connect to the PHP backend
-// and fetch data from the MySQL database
+const API_URL = 'http://localhost:3001/api';
+
+// Fallback to mock data if API is not available
+const useMockData = false; // Set to false to use the real API
+
+// Function to fetch data from API with fallback to mock data
+async function fetchFromApi<T>(endpoint: string, mockData: T): Promise<T> {
+  if (useMockData) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockData);
+      }, 500);
+    });
+  }
+
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`);
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching from ${endpoint}:`, error);
+    console.warn('Falling back to mock data');
+    return mockData;
+  }
+}
+
 export const fetchAllProducts = async (): Promise<Product[]> => {
-  // Simulating an API call with a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockProducts);
-    }, 500);
-  });
+  return fetchFromApi('/products', mockProducts);
 };
 
 export const fetchProductById = async (id: number): Promise<Product | undefined> => {
-  // Simulating an API call with a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const product = mockProducts.find(p => p.id === id);
-      resolve(product);
-    }, 500);
-  });
+  return fetchFromApi(`/products/${id}`, mockProducts.find(p => p.id === id));
 };
 
 export const fetchFeaturedProducts = async (): Promise<Product[]> => {
-  // Simulating an API call with a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const featured = mockProducts.filter(p => p.featured);
-      resolve(featured);
-    }, 500);
-  });
+  return fetchFromApi('/products/featured/list', mockProducts.filter(p => p.featured));
 };
 
 export const fetchProductsByType = async (type: 'solar' | 'grau' | 'infantil'): Promise<Product[]> => {
-  // Simulating an API call with a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const filteredProducts = mockProducts.filter(p => p.type === type);
-      resolve(filteredProducts);
-    }, 500);
-  });
+  return fetchFromApi(`/products/type/${type}`, mockProducts.filter(p => p.type === type));
 };
 
 export const fetchProductsByBrand = async (brand: string): Promise<Product[]> => {
-  // Simulating an API call with a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const filteredProducts = mockProducts.filter(p => p.brand === brand);
-      resolve(filteredProducts);
-    }, 500);
-  });
+  return fetchFromApi(`/products/brand/${brand}`, mockProducts.filter(p => p.brand === brand));
 };
 
 export const fetchAllBrands = async (): Promise<string[]> => {
-  // Simulating an API call with a delay
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const brands = [...new Set(mockProducts.map(p => p.brand))];
-      resolve(brands);
-    }, 500);
-  });
+  return fetchFromApi('/products/brands/list', [...new Set(mockProducts.map(p => p.brand))]);
 };
