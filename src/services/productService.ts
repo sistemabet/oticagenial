@@ -5,7 +5,7 @@ import { mockProducts } from '../data/mock-products';
 const API_URL = 'http://localhost:3001/api';
 
 // Fallback to mock data if API is not available
-const useMockData = false; // Set to false to use the real API
+const useMockData = false; // Definido como false para usar a API real
 
 // Function to fetch data from API with fallback to mock data
 async function fetchFromApi<T>(endpoint: string, mockData: T): Promise<T> {
