@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM products');
     
-    // Transforme os dados para corresponder à estrutura esperada pelo frontend
+    // Transform the data to match the expected frontend structure
     const products = rows.map(row => ({
       id: row.id,
       name: row.title || '',
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
       type: mapearCategoria(row.categoria),
       imageUrl: row.foto || 'https://via.placeholder.com/150',
       inStock: row.in_stock !== undefined ? row.in_stock : true,
-      featured: Boolean(Math.random() > 0.8) // Aleatório para demonstração
+      featured: Boolean(Math.random() > 0.8) // Random for demonstration
     }));
     
     res.json(products);
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
       type: mapearCategoria(row.categoria),
       imageUrl: row.foto || 'https://via.placeholder.com/150',
       inStock: row.in_stock !== undefined ? row.in_stock : true,
-      featured: Boolean(Math.random() > 0.8) // Aleatório para demonstração
+      featured: Boolean(Math.random() > 0.8) // Random for demonstration
     };
     
     res.json(product);
@@ -60,7 +60,7 @@ router.get('/:id', async (req, res) => {
 // Get featured products
 router.get('/featured/list', async (req, res) => {
   try {
-    // Como não temos um campo 'featured', vamos selecionar alguns produtos aleatórios
+    // Since we don't have a 'featured' field, we'll select some random products
     const [rows] = await db.query('SELECT * FROM products ORDER BY RAND() LIMIT 8');
     
     const products = rows.map(row => ({
@@ -88,7 +88,7 @@ router.get('/type/:type', async (req, res) => {
     const tipo = req.params.type;
     let categorias = [];
     
-    // Mapear o tipo para categorias no banco de dados
+    // Map the type to database categories
     switch (tipo) {
       case 'solar':
         categorias = ['Sol', 'Óculos de Sol'];
@@ -123,7 +123,7 @@ router.get('/type/:type', async (req, res) => {
       type: tipo,
       imageUrl: row.foto || 'https://via.placeholder.com/150',
       inStock: row.in_stock !== undefined ? row.in_stock : true,
-      featured: Boolean(Math.random() > 0.8) // Aleatório para demonstração
+      featured: Boolean(Math.random() > 0.8) // Random for demonstration
     }));
     
     res.json(products);
@@ -147,7 +147,7 @@ router.get('/brand/:brand', async (req, res) => {
       type: mapearCategoria(row.categoria),
       imageUrl: row.foto || 'https://via.placeholder.com/150',
       inStock: row.in_stock !== undefined ? row.in_stock : true,
-      featured: Boolean(Math.random() > 0.8) // Aleatório para demonstração
+      featured: Boolean(Math.random() > 0.8) // Random for demonstration
     }));
     
     res.json(products);
@@ -169,7 +169,7 @@ router.get('/brands/list', async (req, res) => {
   }
 });
 
-// Função auxiliar para mapear categorias para tipos
+// Helper function to map categories to types
 function mapearCategoria(categoria) {
   if (!categoria) return 'grau';
   
