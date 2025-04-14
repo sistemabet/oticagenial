@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ShoppingCart, User } from 'lucide-react';
+import { Menu, X, ShoppingCart, User, Search } from 'lucide-react';
 import SearchButton from './SearchButton';  // Import the new SearchButton
 
 const Navbar = () => {
