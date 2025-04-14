@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ShoppingCart, Search, User } from 'lucide-react';
+import { Menu, X, ShoppingCart, User } from 'lucide-react';
+import SearchButton from './SearchButton';  // Import the new SearchButton
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,11 +34,9 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Icons */}
+          {/* Icons and Search */}
           <div className="hidden md:flex items-center space-x-4">
-            <button aria-label="Buscar" className="text-genial-gray hover:text-genial-red transition-colors">
-              <Search size={20} />
-            </button>
+            <SearchButton />  {/* Add SearchButton here */}
             <button aria-label="Minha conta" className="text-genial-gray hover:text-genial-red transition-colors">
               <User size={20} />
             </button>
