@@ -2,15 +2,20 @@
 import { Product } from '../types/product';
 import { mockProducts } from '../data/mock-products';
 
-const API_URL = 'http://localhost:3001/api';
+// Determina a URL da API baseado no ambiente
+const isProduction = window.location.hostname !== 'localhost';
+const API_URL = isProduction 
+  ? '/api' // URL relativa em produção
+  : 'http://localhost:3001/api'; // URL completa em desenvolvimento
 
-// Set to true to use mock data while API connection is fixed
-const useMockData = true;
+// Define se usa dados mock ou não
+// Em produção, sempre tenta usar a API real primeiro
+const useMockData = !isProduction;
 
-// Function to fetch data from API with fallback to mock data
+// Função para buscar dados da API com fallback para dados mock
 async function fetchFromApi<T>(endpoint: string, mockData: T): Promise<T> {
   if (useMockData) {
-    console.log(`Using mock data for ${endpoint}`);
+    console.log(`Usando dados mock para ${endpoint}`);
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(mockData);
@@ -21,12 +26,12 @@ async function fetchFromApi<T>(endpoint: string, mockData: T): Promise<T> {
   try {
     const response = await fetch(`${API_URL}${endpoint}`);
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      throw new Error(`Erro na API: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching from ${endpoint}:`, error);
-    console.warn('Falling back to mock data');
+    console.error(`Erro ao buscar de ${endpoint}:`, error);
+    console.warn('Usando dados mock como fallback');
     return mockData;
   }
 }
