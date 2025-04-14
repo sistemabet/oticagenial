@@ -12,23 +12,26 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// API Routes
-app.use('/api/products', productRoutes);
-
 // Test route
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'API server is running' });
 });
 
-// Em produção, servir os arquivos estáticos do build
+// API Routes
+app.use('/api/products', productRoutes);
+
+// In production, serve static files from the build
 if (process.env.NODE_ENV === 'production') {
-  // Servir os arquivos estáticos da pasta dist
+  // Serve static files from the dist folder
   app.use(express.static(path.join(__dirname, '../dist')));
   
-  // Para qualquer rota que não seja /api, servir o index.html
+  // For any route not starting with /api, serve index.html
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(__dirname, '../dist/index.html'));
+    } else {
+      // For API routes that weren't caught by the earlier handlers, return 404
+      res.status(404).json({ error: 'API endpoint not found' });
     }
   });
 }
